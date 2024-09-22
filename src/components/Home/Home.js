@@ -59,7 +59,7 @@ const Home = () => {
       }`}
     >
       <header className="w-full flex justify-between items-center px-6 md:px-10 py-5">
-        <div className="text-xl md:text-2xl font-bold">NotesMaker</div>
+        <div className="text-xl md:text-2xl font-bold">ScribbleNote</div>
         <div className="flex gap-2 md:gap-4 items-center">
           {isLoggedIn ? (
             <button
@@ -80,7 +80,7 @@ const Home = () => {
                 className="bg-white text-black dark:bg-black dark:text-white px-3 md:px-4 py-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300"
                 onClick={() => openModal("signup")}
               >
-                Get NotesMaker free
+                Get ScribbleNote free
               </button>
             </>
           )}
@@ -115,17 +115,17 @@ const Home = () => {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4">
               Your Plans Unified.
               <br />
-              Welcome to <span className="underline">NotesMaker</span>
+              Welcome to <span className="underline">ScribbleNote</span>
             </h1>
             <p className="text-base sm:text-lg md:text-xl mb-6">
-              NotesMaker is the connected workspace where better, faster work
+              ScribbleNote is the connected workspace where better, faster work
               happens.
             </p>
             <button
               className="bg-white text-black dark:bg-black dark:text-white px-6 sm:px-8 py-3 sm:py-4 rounded-md text-base sm:text-lg hover:bg-gray-200 dark:hover:bg-gray-800 transition duration-300"
               onClick={() => openModal("signup")}
             >
-              Get NotesMaker free →
+              Get ScribbleNote free →
             </button>
           </div>
         </>
