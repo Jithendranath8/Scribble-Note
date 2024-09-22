@@ -19,7 +19,6 @@ const SignupForm = ({ darkMode, onSignup }) => {
 
     localStorage.setItem("user_info", JSON.stringify({ fullname, username, password }));
     localStorage.setItem('isLoggedIn', 'true');
-
     // Calling the parent component's function to redirect 
     onSignup();
   };

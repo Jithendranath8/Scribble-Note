@@ -18,6 +18,7 @@ const LoginForm = ({ darkMode, onLogin }) => {
     } else {
       setError('Invalid username or password');
     }
+    
   };
 
   return (

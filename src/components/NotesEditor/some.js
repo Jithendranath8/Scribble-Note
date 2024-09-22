@@ -18,13 +18,14 @@ const Some = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar state for mobile screens
   // Create a ref for the new note input field
   const newNoteInputRef = useRef(null);
+  const userInfo = JSON.parse(localStorage.getItem("user_info"));
   const navigate = useNavigate();
   const user = {
-    id: "user123",
-    firstName: "Jithendranath",
+    id: userInfo.username,
+    firstName: userInfo.fullname,
     lastName: "",
   };
-  const userInfo = JSON.parse(localStorage.getItem("user_info"));
+  
   const initials = getInitials(userInfo.fullname);
   useEffect(() => {
     const storedNotes = JSON.parse(localStorage.getItem(`notes_${user.id}`));
