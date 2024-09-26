@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import image from "../../assets/image1.png";
 import LoginForm from "./LoginForm";
 import SignupForm from "./SignupForm";
-import Some from "../NotesEditor/some";
+// import Some from "../NotesEditor/some";
 
 const Home = () => {
   const [darkMode, setDarkMode] = useState(false);

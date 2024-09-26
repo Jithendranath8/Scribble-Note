@@ -14,7 +14,7 @@ const LoginForm = ({ darkMode, onLogin }) => {
     if (storedUser && storedUser.password === password) {
       // Login successful: Set logged in status in localStorage
       localStorage.setItem('isLoggedIn', 'true');
-      onLogin(); // Call the parent component's callback to close the modal or redirect
+      onLogin(); 
     } else {
       setError('Invalid username or password');
     }
@@ -46,15 +46,13 @@ const LoginForm = ({ darkMode, onLogin }) => {
           id="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-4 py-2 text-balck"
+          className="w-full px-4 py-2 text-black"
           required
         />
       </div>
       <button
         type="submit"
-        className={`w-full py-2 px-4 rounded-md ${
-          darkMode ? 'bg-sky-700 text-black' : 'bg-sky-700 text-white'
-        } hover:bg-sky-900`}
+        className={`w-full py-2 px-4 rounded-md bg-sky-700 text-black hover:bg-sky-900`}
       >
         Log In
       </button>
