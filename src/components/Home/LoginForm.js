@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const LoginForm = ({ darkMode, onLogin }) => {
   const [username, setUsername] = useState('');
@@ -8,17 +9,18 @@ const LoginForm = ({ darkMode, onLogin }) => {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    // Fetch the stored user data from localStorage
-    const storedUser = JSON.parse(localStorage.getItem(username));
+    // Retrieve the stored user data based on the username
+    const storedUser = JSON.parse(localStorage.getItem("user_info"));
 
+    // Validate if the user exists and the password matches
     if (storedUser && storedUser.password === password) {
-      // Login successful: Set logged in status in localStorage
       localStorage.setItem('isLoggedIn', 'true');
-      onLogin(); 
+      toast.success('Logged in successfully!');
+      onLogin();
     } else {
       setError('Invalid username or password');
+      toast.error('Invalid username or password');
     }
-    
   };
 
   return (

@@ -1,10 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaPlus, FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import image2 from '../../assets/image1.png';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';  
+
 // Utility function to generate initials
 const getInitials = (fullname) => {
   return `${fullname[0]}`.toUpperCase();
 };
+
 const Some = () => {
   const [notes, setNotes] = useState([]);
   const [newNoteTitle, setNewNoteTitle] = useState("");
@@ -15,8 +20,7 @@ const Some = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(null);
   const [isRenaming, setIsRenaming] = useState(null);
   const [renameInput, setRenameInput] = useState("");
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Sidebar state for mobile screens
-  // Create a ref for the new note input field
+  const [sidebarOpen, setSidebarOpen] = useState(false); 
   const newNoteInputRef = useRef(null);
   const userInfo = JSON.parse(localStorage.getItem("user_info"));
   const navigate = useNavigate();
@@ -27,20 +31,27 @@ const Some = () => {
   };
   
   const initials = getInitials(userInfo.fullname);
+
+  // Load notes from localStorage
   useEffect(() => {
     const storedNotes = JSON.parse(localStorage.getItem(`notes_${user.id}`));
     if (storedNotes) {
       setNotes(storedNotes);
     }
   }, [user.id]);
+
+  // Save notes to localStorage
   useEffect(() => {
     if (notes.length > 0) {
       localStorage.setItem(`notes_${user.id}`, JSON.stringify(notes));
     }
   }, [notes, user.id]);
+
   const filteredNotes = notes.filter((note) =>
     note.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Add a new note and close the sidebar on mobile
   const addNewNote = () => {
     if (newNoteTitle.trim()) {
       const newNote = {
@@ -52,44 +63,62 @@ const Some = () => {
       setIsAddingNote(false);
       setSelectedNoteIndex(notes.length);
       setNoteContent("");
+      toast.success("Notes added successfully!",{autoClose:1500});
+      if (window.innerWidth < 767) {
+        setSidebarOpen(false); // Close sidebar on mobile after adding note
+      }
     }
   };
+
+  // Open note and close sidebar on mobile
   const openNote = (index) => {
     setSelectedNoteIndex(index);
     setNoteContent(notes[index].content);
+    if (window.innerWidth < 767) {
+      setSidebarOpen(false); // Close sidebar on mobile after selecting a note
+    }
   };
+
   const updateNoteContent = (content) => {
     const updatedNotes = [...notes];
     updatedNotes[selectedNoteIndex].content = content;
     setNotes(updatedNotes);
     setNoteContent(content);
   };
+
   const handleRename = (index) => {
     const updatedNotes = [...notes];
     updatedNotes[index].title = renameInput;
     setNotes(updatedNotes);
     setIsRenaming(null);
     setIsMenuOpen(null);
+    toast.success("Renamed successfully!" ,{autoClose:1500});
   };
+
   const deleteNote = (index) => {
     const updatedNotes = notes.filter((_, i) => i !== index);
     setNotes(updatedNotes);
     setSelectedNoteIndex(null);
     setIsMenuOpen(null);
+    toast.info("Notes deleted successfully!" , {autoClose:1500});
   };
+
   useEffect(() => {
     if (isAddingNote && newNoteInputRef.current) {
       newNoteInputRef.current.focus();
     }
   }, [isAddingNote]);
+
   const handleLogout = () => {
     localStorage.removeItem(`notes_${user.id}`);
     localStorage.removeItem("user");
     navigate("/");
   };
+
   return (
     <div className="flex min-h-screen">
-      {/* Hamburger Button for Mobile */}
+      <ToastContainer /> 
+      {/* Hamburger Button */}
       <button
         className="md:hidden p-4 bg-gray-900 text-gray-300"
         onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -253,9 +282,23 @@ const Some = () => {
               </div>
             </>
           ) : (
-            <div className="flex items-center justify-center h-full text-gray-500">
-              Select a note or create a new one.
-            </div>
+            <div className="flex flex-col items-center justify-center h-full text-gray-500">
+            <img
+              src={image2}  
+              alt="No notes"
+              className="w-1/2 md:w-1/4 mb-6"
+            />
+            <h2 className="text-2xl font-semibold mb-4">
+              Welcome  {user.firstName}
+            </h2>
+            <button
+              className="flex items-center bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600"
+              onClick={() => setIsAddingNote(true)} 
+            >
+              <FaPlus className="mr-2" />
+              Create note
+            </button>
+          </div>
           )}
         </div>
       </div>

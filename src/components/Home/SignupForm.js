@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const SignupForm = ({ darkMode, onSignup }) => {
-  const [fullname, setfullname] = useState('');
+  const [fullname, setFullname] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -9,32 +10,35 @@ const SignupForm = ({ darkMode, onSignup }) => {
   const handleSignup = (e) => {
     e.preventDefault();
 
-
+    // Check if a user with the same username already exists
     const existingUser = localStorage.getItem(username);
     if (existingUser) {
-      alert("User already exists! Please log in.")
       setError('User already exists! Please log in.');
-      return ;
+      toast.error('User already exists! Please log in.');
+      return;
     }
 
-    localStorage.setItem("user_info", JSON.stringify({ fullname, username, password }));
+    // Store the new user's data in localStorage under their username
+    const newUser = { fullname, username, password };
+    localStorage.setItem('user_info', JSON.stringify(newUser));
     localStorage.setItem('isLoggedIn', 'true');
-    // Calling the parent component's function to redirect 
-    onSignup();
+
+    toast.success('User created successfully!');
+    onSignup(); 
   };
 
   return (
     <form onSubmit={handleSignup} className="space-y-4">
       {error && <p className="text-red-500">{error}</p>}
       <div>
-        <label htmlFor="Fullname" className="block mb-2 text-white">
-          Fullname
+        <label htmlFor="fullname" className="block mb-2 text-white">
+          Full Name
         </label>
         <input
           type="text"
           id="fullname"
           value={fullname}
-          onChange={(e) => setfullname(e.target.value)}
+          onChange={(e) => setFullname(e.target.value)}
           className="w-full px-4 py-2 text-black"
           required
         />
